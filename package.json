@@ -1,0 +1,37 @@
+{
+  "name": "images_proccessing",
+  "version": "1.0.0",
+  "description": "This project aims to give you a real-world scenario in which you would read and write to your disk via a Node.js express server rather than a database. The project you create serves two purposes: to prepare you for setting up scalable code and architecture for real-world projects and tie together some of the most popular middleware and utilities found in Node.js projects. This project barely touches the surface of what is possible but will prove your ability to use what you’ve learned in real-world scenarios.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "module",
+    "url": "git+https://github.com/udacity/nd-0067-c1-building-a-server-project-starter.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/udacity/nd-0067-c1-building-a-server-project-starter/issues"
+  },
+  "homepage": "https://github.com/udacity/nd-0067-c1-building-a-server-project-starter#readme",
+  "dependencies": {
+    "express": "^4.18.1",
+    "jasmine": "^4.1.0",
+    "sharp": "^0.30.4"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.13",
+    "@types/morgan": "^1.9.3",
+    "@types/node": "^17.0.33",
+    "@types/sharp": "^0.30.2",
+    "eslint": "^8.15.0",
+    "i": "^0.3.7",
+    "morgan": "^1.10.0",
+    "npm": "^8.10.0",
+    "prettier": "^2.6.2",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.4"
+  }
+}

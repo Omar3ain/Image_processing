@@ -6,7 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 var names_1 = __importDefault(require("../utilties/names"));
 var path_1 = __importDefault(require("path"));
-var sharp_1 = __importDefault(require("sharp"));
+var fs_1 = __importDefault(require("fs"));
+var ResizingFunction_1 = __importDefault(require("../utilties/ResizingFunction"));
 var router = express_1.default.Router();
 router.get('/images', function (req, res) {
     var fileName = req.query.filename;
@@ -36,11 +37,14 @@ router.get('/images', function (req, res) {
     }
     // doing the resizing opratortion:
     else {
-        (0, sharp_1.default)(imgLocation)
-            .resize(parseInt(width), parseInt(height))
-            .toFile("public/thumbnails/".concat(fileName, " width-").concat(width, " height-").concat(height, ".jpg"))
-            .then(function () {
-            var imgLocationResized = path_1.default.resolve('./', "public/thumbnails/".concat(fileName, " width-").concat(width, " height-").concat(height, ".jpg"));
+        if (!fs_1.default.existsSync('thumbnails')) {
+            fs_1.default.mkdir('thumbnails', function (err) {
+                console.log(err);
+            });
+        }
+        // resize function from utilites folder
+        (0, ResizingFunction_1.default)(imgLocation, width, height, fileName).then(function () {
+            var imgLocationResized = path_1.default.resolve('./', "thumbnails/".concat(fileName, " width-").concat(width, " height-").concat(height, ".jpg"));
             return res.sendFile(imgLocationResized);
         });
     }

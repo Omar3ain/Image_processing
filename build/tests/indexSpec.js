@@ -41,6 +41,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var index_1 = __importDefault(require("../index"));
 var supertest_1 = __importDefault(require("supertest"));
+var ResizingFunction_1 = __importDefault(require("../utilties/ResizingFunction"));
+var path_1 = __importDefault(require("path"));
 var request = (0, supertest_1.default)(index_1.default);
 describe('Testing the app endpoints:', function () {
     it('Gets api/images endpoint', function () { return __awaiter(void 0, void 0, void 0, function () {
@@ -56,21 +58,12 @@ describe('Testing the app endpoints:', function () {
         });
     }); });
 });
-describe('Testing the image endpoints:', function () {
-    it('Gets api/images endpoint', function () { return __awaiter(void 0, void 0, void 0, function () {
-        var fileName, width, height, respones;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    fileName = 'fjord';
-                    width = 100;
-                    height = 200;
-                    return [4 /*yield*/, request.get("/api/images?".concat(fileName, "=&width=").concat(width, "&height=").concat(height))];
-                case 1:
-                    respones = _a.sent();
-                    expect(respones.status).toBe(200);
-                    return [2 /*return*/];
-            }
-        });
-    }); });
+describe('Testing the image resizing:', function () {
+    var fileName = 'fjord';
+    var imgLocation = path_1.default.resolve('./', "public/images/".concat(fileName, ".jpg"));
+    var width = '200';
+    var height = '200';
+    it('should nott throw an error', function () {
+        expect((0, ResizingFunction_1.default)(imgLocation, width, height, fileName)).not.toThrowError;
+    });
 });

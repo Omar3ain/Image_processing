@@ -12,6 +12,7 @@ var port = process_1.default.env.PORT || 3000;
 // middleware
 app.use((0, morgan_1.default)('dev'));
 app.use(express_1.default.static('public'));
+app.use(express_1.default.static('thumbnails'));
 // main route for the app
 app.use('/api', mainRoute_1.default);
 // listening to the server

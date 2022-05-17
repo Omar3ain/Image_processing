@@ -9,6 +9,7 @@ const port = process.env.PORT || 3000;
 // middleware
 app.use(morgan('dev'));
 app.use(express.static('public'));
+app.use(express.static('thumbnails'));
 
 // main route for the app
 app.use('/api', mainRoute);

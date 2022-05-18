@@ -1,7 +1,6 @@
 import express from 'express';
 import imagesNames from '../utilties/names';
 import path from 'path';
-import sharp from 'sharp';
 import fs from 'fs';
 import resize from '../utilties/ResizingFunction';
 
@@ -44,18 +43,39 @@ router.get(
 
     // doing the resizing opratortion:
     else {
-      if (!fs.existsSync('thumbnails')) {
-        fs.mkdir('thumbnails', (err) => {
-          console.log(err);
-        });
-      }
-      // resize function from utilites folder
-      resize(imgLocation, width, height, fileName).then(() => {
-        const imgLocationResized = path.resolve(
-          './',
-          `thumbnails/${fileName} width-${width} height-${height}.jpg`
-        );
-        return res.sendFile(imgLocationResized);
+      fs.stat('thumbnails', (err) => {
+        if (!err) {
+          console.log('folder exists');
+        } else if (err.code === 'ENOENT') {
+          fs.mkdir('thumbnails', (err) => {
+            console.log(err);
+          });
+        }
+      });
+      // location of the image
+      const imageExists = path.resolve(
+        './',
+        `thumbnails/${fileName} width-${width} height-${height}.jpg`
+      );
+      //checks if the image already exists if not create new one
+      fs.stat(imageExists, (err) => {
+        //if file exsits return the file
+        if (!err) {
+          const imgLocationResized = path.resolve(
+            './',
+            `thumbnails/${fileName} width-${width} height-${height}.jpg`
+          );
+          return res.sendFile(imgLocationResized);
+          //if file does not exist make one and return it
+        } else if (err.code === 'ENOENT') {
+          resize(imgLocation, width, height, fileName).then(() => {
+            const imgLocationResized = path.resolve(
+              './',
+              `thumbnails/${fileName} width-${width} height-${height}.jpg`
+            );
+            return res.sendFile(imgLocationResized);
+          });
+        }
       });
     }
   }

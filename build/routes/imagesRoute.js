@@ -37,15 +37,32 @@ router.get('/images', function (req, res) {
     }
     // doing the resizing opratortion:
     else {
-        if (!fs_1.default.existsSync('thumbnails')) {
-            fs_1.default.mkdir('thumbnails', function (err) {
-                console.log(err);
-            });
-        }
-        // resize function from utilites folder
-        (0, ResizingFunction_1.default)(imgLocation, width, height, fileName).then(function () {
-            var imgLocationResized = path_1.default.resolve('./', "thumbnails/".concat(fileName, " width-").concat(width, " height-").concat(height, ".jpg"));
-            return res.sendFile(imgLocationResized);
+        fs_1.default.stat('thumbnails', function (err) {
+            if (!err) {
+                console.log('folder exists');
+            }
+            else if (err.code === 'ENOENT') {
+                fs_1.default.mkdir('thumbnails', function (err) {
+                    console.log(err);
+                });
+            }
+        });
+        // location of the image
+        var imageExists = path_1.default.resolve('./', "thumbnails/".concat(fileName, " width-").concat(width, " height-").concat(height, ".jpg"));
+        //checks if the image already exists if not create new one
+        fs_1.default.stat(imageExists, function (err) {
+            //if file exsits return the file
+            if (!err) {
+                var imgLocationResized = path_1.default.resolve('./', "thumbnails/".concat(fileName, " width-").concat(width, " height-").concat(height, ".jpg"));
+                return res.sendFile(imgLocationResized);
+                //if file does not exist make one and return it
+            }
+            else if (err.code === 'ENOENT') {
+                (0, ResizingFunction_1.default)(imgLocation, width, height, fileName).then(function () {
+                    var imgLocationResized = path_1.default.resolve('./', "thumbnails/".concat(fileName, " width-").concat(width, " height-").concat(height, ".jpg"));
+                    return res.sendFile(imgLocationResized);
+                });
+            }
         });
     }
 });

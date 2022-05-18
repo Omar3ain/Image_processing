@@ -58,12 +58,24 @@ describe('Testing the app endpoints:', function () {
         });
     }); });
 });
-describe('Testing the image resizing:', function () {
+describe('Testing the image resizing and image endpoints:', function () {
     var fileName = 'fjord';
     var imgLocation = path_1.default.resolve('./', "public/images/".concat(fileName, ".jpg"));
     var width = '200';
     var height = '200';
-    it('should nott throw an error', function () {
+    it('should not throw an error', function () {
         expect((0, ResizingFunction_1.default)(imgLocation, width, height, fileName)).not.toThrowError;
     });
+    it('Gets api/images resizing endpoint', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var respones;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, request.get('/api/images?filename=fjord&width=800&height=100')];
+                case 1:
+                    respones = _a.sent();
+                    expect(respones.status).toBe(200);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
 });

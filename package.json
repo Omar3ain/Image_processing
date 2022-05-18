@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint . --ext .ts ",
-    "prettier": "prettier --config .prettierrc \"**/*.js\" --write ",
+    "prettier": "prettier --config .prettierrc \"**/*.ts\" --write ",
     "build": "npx tsc",
     "start": "nodemon build/index",
     "jasmine": "jasmine",
@@ -24,10 +24,12 @@
   "homepage": "https://github.com/udacity/nd-0067-c1-building-a-server-project-starter#readme",
   "dependencies": {
     "express": "^4.18.1",
+    "fs-extra": "^10.1.0",
     "sharp": "^0.30.4"
   },
   "devDependencies": {
     "@types/express": "^4.17.13",
+    "@types/fs-extra": "^9.0.13",
     "@types/jasmine": "^4.0.3",
     "@types/morgan": "^1.9.3",
     "@types/node": "^17.0.33",

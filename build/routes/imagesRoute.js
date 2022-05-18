@@ -20,7 +20,7 @@ router.get('/images', function (req, res) {
         return res.status(400).send('there is no image with that name');
     }
     // checks if the name exists in the request query:
-    else if (!req.query.hasOwnProperty('filename')) {
+    else if (!Object.prototype.hasOwnProperty.call(req.query, 'filename')) {
         return res
             .status(200)
             .send('Put the image name and width-height that you want!');
@@ -30,7 +30,12 @@ router.get('/images', function (req, res) {
         return res.status(404).send('there is no image with that name');
     }
     // checks for the numbers of width and height so that the app don't crash:
-    else if (+width < 0 || +width > 2000 || +height < 0 || +height > 2000) {
+    else if (+width < 1 ||
+        +width > 2000 ||
+        +height < 1 ||
+        +height > 2000 ||
+        isNaN(+height) ||
+        isNaN(+width)) {
         return res
             .status(400)
             .send('please put vaild numbers for width and height between 0 and 2000!');

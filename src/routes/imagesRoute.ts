@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Response } from 'express';
 import imagesNames from '../utilties/names';
 import path from 'path';
 import fs from 'fs';
@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.get(
   '/images',
-  (req: express.Request, res: express.Response): void | any => {
+  (req: express.Request, res: express.Response): void | Response => {
     const fileName = req.query.filename as string;
     const width = req.query.width as string;
     const height = req.query.height as string;
@@ -21,7 +21,7 @@ router.get(
     }
 
     // checks if the name exists in the request query:
-    else if (!req.query.hasOwnProperty('filename')) {
+    else if (!Object.prototype.hasOwnProperty.call(req.query, 'filename')) {
       return res
         .status(200)
         .send('Put the image name and width-height that you want!');
@@ -33,7 +33,14 @@ router.get(
     }
 
     // checks for the numbers of width and height so that the app don't crash:
-    else if (+width < 0 || +width > 2000 || +height < 0 || +height > 2000) {
+    else if (
+      +width < 1 ||
+      +width > 2000 ||
+      +height < 1 ||
+      +height > 2000 ||
+      isNaN(+height) ||
+      isNaN(+width)
+    ) {
       return res
         .status(400)
         .send(
